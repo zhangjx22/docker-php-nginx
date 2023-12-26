@@ -52,7 +52,8 @@ RUN ln -s /usr/bin/php82 /usr/bin/php
 USER nobody
 
 # Add application
-COPY --chown=nobody src/ /var/www/html/
+# COPY --chown=nobody src/ /var/www/html/
+RUN cd /var/www/html/ && git clone https://github.com/tnnd/php-proxy.git && mv ./php-proxy/* ./
 
 # Expose the port nginx is reachable on
 EXPOSE 8080
