@@ -55,6 +55,7 @@ USER nobody
 # Add application
 # COPY --chown=nobody src/ /var/www/html/
 RUN cd /var/www/html/ && git clone https://github.com/tnnd/php-proxy.git && mv ./php-proxy/* ./ && \
+  sed -i "s/\//$config\['app_url'\] = 'https://www.mysampleproxy.com/proxyfolder/';/\$config\['app_url'\] = 'https://php-ku4etwoe.b4a.run';/" "./config.php" && \
   sed -i "s/\$config\['app_key'\] = '';/\$config\['app_key'\] = 'ku4etwoe';/" "./config.php"
 
 # Expose the port nginx is reachable on
