@@ -48,15 +48,14 @@ RUN chown -R nobody.nobody /var/www/html /run /var/lib/nginx /var/log/nginx
 
 # Create symlink for php
 RUN ln -s /usr/bin/php82 /usr/bin/php
+RUN cd /var/www/html/ && git clone https://github.com/tnnd/php-proxy.git && mv ./php-proxy/* ./
 
 # Switch to use a non-root user from here on
 USER nobody
 
 # Add application
 # COPY --chown=nobody src/ /var/www/html/
-RUN cd /var/www/html/ && git clone https://github.com/tnnd/php-proxy.git && mv ./php-proxy/* ./ && \
-  sed -i "s/\//$config\['app_url'\] = 'https://www.mysampleproxy.com/proxyfolder/';/\$config\['app_url'\] = 'https://php-ku4etwoe.b4a.run';/" "./config.php" && \
-  sed -i "s/\$config\['app_key'\] = '';/\$config\['app_key'\] = 'ku4etwoe';/" "./config.php"
+COPY src/php-proxy/config.php ./
 
 # Expose the port nginx is reachable on
 EXPOSE 8080
